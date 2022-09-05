@@ -1,20 +1,23 @@
 local AddonName, AddonTable = ...
-if not AddonTable.Ace3.Addon then
-  return
+if not AddonTable.Ace3.Addon then return end
+
+function AddonTable.Ace3.Addon:OnInitialize()
+  self.Database = LibStub("AceDB-3.0"):New(AddonTable.Ace3.Database.Name, AddonTable.Ace3.Database.Defaults)
+  LibStub("AceConfig-3.0"):RegisterOptionsTable(AddonName, AddonTable.Ace3.Config.Options, {"sa"})
 end
 
-local SkillessAccomplishment = AddonTable.Ace3.Addon
-
-function SkillessAccomplishment:OnEnable()
-  AddonTable.Ace3.Addon.PrintNotification()
-  self:RegisterEvent("PLAYER_LEVEL_UP", self.PLAYER_LEVEL_UP)
-end
-
-function SkillessAccomplishment.PLAYER_LEVEL_UP(event, ...)
-  local level, healthDelta, powerDelta, numNewTalents, numNewPvpTalentSlots, strengthDelta, agilityDelta, staminaDelta, intellectDelta = ...
-  if mod(level, SkillessAccomplishment.Database.global.freq) == 0 then
-    C_Timer.After(3, function()
-      local willPlay, soundHandle = PlaySoundFile("Interface\\AddOns\\".. AddonName .."\\Media\\SkillessAccomplishment.ogg", "Dialog")
-    end)
+function AddonTable.Ace3.Addon:OnEnable()
+  if AddonTable.Ace3.Addon.Database.global.notify then
+    AddonTable.Functions.PrintNotification()
   end
+  -- register level up event
+  self:RegisterEvent("PLAYER_LEVEL_UP", function(event, level)
+    if mod(level, AddonTable.Ace3.Addon.Database.global.freq) == 0 then
+      -- level is divisible by frequency with no remainder
+      C_Timer.After(4, function()
+        -- wait a moment before playing the soundbite
+        PlaySoundFile("Interface\\AddOns\\".. AddonName .."\\Media\\".. AddonName ..".ogg", AddonTable.Ace3.Addon.Database.global.channel)
+      end)
+    end
+  end)
 end
