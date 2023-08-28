@@ -51,13 +51,11 @@ AddonTable.Ace3 = {
           type = "select",
           get = function(info) return AddonTable.Ace3.Addon.Database.global.sound end,
           set = function(info,sound)
-            AddonTable.Ace3.Addon:Print(AddonTable.Functions.WrapTextWithColor(value) ..' selected for playback.')
-            AddonTable.Ace3.Addon.Database.global.sound = value
-            AddonTable.Functions.PrintNotification()
+            AddonTable.Ace3.Addon:Print(AddonTable.Functions.WrapTextWithColor(sound) ..' selected for playback. Now playing file...')
+            AddonTable.Ace3.Addon.Database.global.sound = sound
+            PlaySoundFile("Interface\\AddOns\\".. AddonName .."\\Media\\".. AddonTable.Ace3.Addon.Database.global.sound, AddonTable.Ace3.Addon.Database.global.channel)
           end,
-          values = function()
-            return Sounds.getSounds()
-          end,
+          values = SoundList
         },
         freq = {
           name = "Frequency",

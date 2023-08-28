@@ -5,11 +5,11 @@ rem Get the directory path of the script being run
 set "scriptDir=%~dp0"
 
 rem Set the output file name
-set "outputFile=sound_files.txt"
+set "outputFile=Sounds.lua"
 set "AddonName=..AddonName.."
 
 rem Combine script directory with the output file name
-set "filePath=%scriptDir%%outputFile%"
+set "filePath=%scriptDir%..\Source\%outputFile%"
 
 rem Clear the output file if it already exists
 type nul > "%filePath%"
