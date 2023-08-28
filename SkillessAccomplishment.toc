@@ -3,7 +3,7 @@
 ## Interface-BCC: 20504
 ## Interface-Wrath: 30400
 ## Title: Skilless Accomplishment
-## Author: JCRatfish
+## Author: JCRatfish (Adapted by IBFrost)
 ## Version: 1.1.0
 ## LoadOnDemand: 0
 ## OptionalDeps: Ace3
@@ -23,3 +23,4 @@ Libs\AceConfig-3.0\AceConfig-3.0.xml
 
 Source\Init.lua
 Source\Core.lua
+Source\Sounds.lua
