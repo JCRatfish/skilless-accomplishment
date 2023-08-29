@@ -6,7 +6,7 @@ set "scriptDir=%~dp0"
 
 rem Set the output file name
 set "outputFile=Sounds.lua"
-set "AddonName=..AddonName.."
+set "AddonName=AddonName"  rem Replace with actual AddonName
 
 rem Combine script directory with the output file name
 set "filePath=%scriptDir%..\Source\%outputFile%"
@@ -15,7 +15,11 @@ rem Clear the output file if it already exists
 type nul > "%filePath%"
 
 rem Write the Lua table header
-echo values = { >> "%filePath%"
+echo local AddonName, AddonTable = ... > "%filePath%"
+echo.>> "%filePath%"
+echo if not AddonTable.Ace3.Addon then return end >> "%filePath%"
+echo.>> "%filePath%"
+echo local sounds = { >> "%filePath%"
 
 rem Loop through all files in the directory
 for %%I in ("%scriptDir%\*.*") do (
@@ -26,12 +30,18 @@ for %%I in ("%scriptDir%\*.*") do (
         if /I "%%~nxI" neq "%outputFile%" (
             rem Write the Lua table entry for each file
             set "escapedPath=!sfp:%scriptDir%=!"
-            echo   !sfn! = "Interface\\AddOns\\!AddonName!\\Media\\!escapedPath!", >> "%filePath%"
+            echo   !sfn! = "!escapedPath!", >> "%filePath%"
         )
     )
 )
 
 rem Write the Lua table footer
 echo } >> "%filePath%"
+echo.>> "%filePath%"
+echo function SetSounds() >> "%filePath%"
+echo     AddonTable.Ace3.Config.Options.args.sound.values = sounds >> "%filePath%"
+echo end >> "%filePath%"
+echo.>> "%filePath%"
+echo SetSounds() >> "%filePath%"
 
 endlocal
