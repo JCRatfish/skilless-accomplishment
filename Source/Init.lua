@@ -1,5 +1,6 @@
 local AddonName, AddonTable = ...
 local AddonNameVerification = "SkillessAccomplishment"
+
 if (AddonName ~= AddonNameVerification) or (not LibStub) then return end
 
 AddonTable.Functions = {
@@ -11,7 +12,7 @@ AddonTable.Functions = {
     end
   end,
   PrintNotification = function()
-    local notification = "Asmongold will congratulate you "
+    local notification = "Remind yourself to stay humble "
     if AddonTable.Ace3.Addon.Database.global.freq == 1 then
       notification = notification .. AddonTable.Functions.WrapTextWithColor("every") .." level."
     elseif AddonTable.Ace3.Addon.Database.global.freq > AddonTable.Functions.GetMaximumPlayerLevel()/2 then
@@ -33,6 +34,7 @@ AddonTable.Ace3 = {
     Name = AddonName .."DB",
     Defaults = {
       global = {
+        sound = "SkillessAccomplishment.ogg",
         freq = 10,
         channel = "Dialog",
         notify = true
@@ -43,6 +45,22 @@ AddonTable.Ace3 = {
     Options = {
       type = "group",
       args = {
+        sound = {
+          name = "Sound",
+          desc = "Select which sound you would like to play.",
+          type = "select",
+          get = function(info) return AddonTable.Ace3.Addon.Database.global.sound end,
+          set = function(info,sound)
+            AddonTable.Ace3.Addon:Print(AddonTable.Functions.WrapTextWithColor(sound) ..' selected for playback.')
+            AddonTable.Ace3.Addon.Database.global.sound = AddonTable.Ace3.Config.Options.args.sound.values[sound]
+            C_Timer.After(1, function()
+              -- wait a moment before playing the soundbite
+              AddonTable.Ace3.Addon:Print("Attempting to play Interface\\AddOns\\".. AddonName .."\\Media\\".. AddonTable.Ace3.Addon.Database.global.sound .. " now")
+              PlaySoundFile("Interface\\AddOns\\".. AddonName .."\\Media\\".. AddonTable.Ace3.Addon.Database.global.sound .."", AddonTable.Ace3.Addon.Database.global.channel)
+            end)
+          end,
+          values = SoundList
+        },
         freq = {
           name = "Frequency",
           desc = "How frequently you want the soundbite to play (accepts 1-".. AddonTable.Functions.GetMaximumPlayerLevel() ..").",

@@ -1,4 +1,5 @@
 local AddonName, AddonTable = ...
+
 if not AddonTable.Ace3.Addon then return end
 
 function AddonTable.Ace3.Addon:OnInitialize()
@@ -16,7 +17,7 @@ function AddonTable.Ace3.Addon:OnEnable()
       -- level is divisible by frequency with no remainder
       C_Timer.After(4, function()
         -- wait a moment before playing the soundbite
-        PlaySoundFile("Interface\\AddOns\\".. AddonName .."\\Media\\".. AddonName ..".ogg", AddonTable.Ace3.Addon.Database.global.channel)
+        PlaySoundFile("Interface\\AddOns\\".. AddonName .."\\Media\\".. AddonTable.Ace3.Addon.Database.global.sound .."", AddonTable.Ace3.Addon.Database.global.channel)
       end)
     end
   end)
