@@ -3,7 +3,7 @@
 ## Interface-BCC: 20504
 ## Interface-Wrath: 30400
 ## Title: Skilless Accomplishment
-## Author: JCRatfish (Adapted by IBFrost)
+## Author: JCRatfish
 ## Version: 1.1.0
 ## LoadOnDemand: 0
 ## OptionalDeps: Ace3
